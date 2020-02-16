@@ -17,4 +17,7 @@ Usage
 ```
 cd docker-ide
 source dev.rc
+ide
 ```
+
+After running the `source` command, you can run the `ide` command from anywhere and it will mount your current directory into the docker container and start vim
