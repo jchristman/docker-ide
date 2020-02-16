@@ -2,6 +2,8 @@
 
 The goal of this repository is to make it easy to have a portable IDE that isn't dependent on a setting up on a particular platform. This docker setup has auto-completion for C families, Python, Golang, and JavaScript using YouCompleteMe.
 
+![](https://github.com/jchristman/docker-ide/blob/readme-gif/demo.gif?raw=true)
+
 Setup
 =====
 
