@@ -1,0 +1,5 @@
+#!/bin/zsh
+
+path+=$PWD/dockerfiles/ide
+
+cd workspace

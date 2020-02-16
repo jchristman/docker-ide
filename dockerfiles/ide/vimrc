@@ -1,0 +1,80 @@
+set nocompatible              " be iMproved, required
+set encoding=utf-8
+filetype off                  " required
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.config/nvim/bundle/Vundle.vim
+call vundle#begin()
+
+Plugin 'gmarik/Vundle.vim'  " let Vundle manage Vundle, required
+
+" Now some IDE stuff
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'scrooloose/nerdtree'
+Plugin 'jistr/vim-nerdtree-tabs'
+
+" And get dat highlighting and colors
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'jparise/vim-graphql'
+Plugin 'elzr/vim-json'
+
+" Prettier for javascript
+Plugin 'prettier/vim-prettier'
+
+call vundle#end()            " required
+filetype plugin indent on    " required
+
+" YouCompleteMe stuffs
+let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+let g:ycm_add_preview_to_completeopt = 1
+let g:ycm_autoclose_preview_window_after_insertion = 1
+let g:SuperTabDefaultCompletionType = '<C-n>'
+
+" NERDtree things
+let g:nerdtree_tabs_open_on_console_startup=1
+let g:NERDTreeWinSize = 40
+"let NERDTreeMapOpenInTab='<ENTER>'
+nmap \ :NERDTree<CR>
+nmap <C-\> :NERDTreeTabsToggle<CR>
+
+" Extra mappings for things like iTerm
+map 1;5A <C-Up>
+map 1;5B <C-Down>
+map 1;5C <C-Right>
+map 1;5D <C-Left>
+map ^[1;5E <C-.>
+nmap <silent> <C-Up> :wincmd k<CR>
+nmap <silent> <C-Down> :wincmd j<CR>
+nmap <silent> <C-Left> :wincmd h<CR>
+nmap <silent> <C-Right> :wincmd l<CR>
+nmap <silent> <C-.> :YcmCompleter GetDoc<CR>
+
+" powerline
+"set term=xterm-256color
+set laststatus=2
+
+" spacing and nicities
+set expandtab shiftwidth=4 tabstop=4
+autocmd Filetype html setlocal ts=2 sw=2 expandtab
+autocmd Filetype ruby setlocal ts=2 sw=2 expandtab
+autocmd Filetype javascript setlocal ts=2 sw=2 sts=0 expandtab
+set number
+set cursorline
+set ruler
+set nobackup nowb noswapfile
+set background=dark
+set bs=2
+set scrolloff=15
+syntax on
+set t_Co=256
+
+" Color schemes
+set background=dark
+colorscheme solarized
+
+" goes to last line open in file
+if has("autocmd")
+    au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+endif
+

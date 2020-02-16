@@ -1,0 +1,3 @@
+#!/bin/zsh
+
+docker run -it -v `pwd`:/home/dev/workspace ide:latest
