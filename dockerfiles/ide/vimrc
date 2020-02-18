@@ -25,11 +25,18 @@ call vundle#end()            " required
 filetype plugin indent on    " required
 
 " YouCompleteMe stuffs
-let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+autocmd CmdwinEnter * inoremap <expr><buffer> <TAB>
+      \ pumvisible() ? "\<C-n>" : "\<TAB>"
+
+let g:ycm_key_list_select_completion = ['<TAB>', '<C-n>', '<Down>']
 let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
 let g:ycm_add_preview_to_completeopt = 1
 let g:ycm_autoclose_preview_window_after_insertion = 1
-let g:SuperTabDefaultCompletionType = '<C-n>'
+
+" Prettier auto-format
+let g:prettier#autoformat = 1
+let g:prettier#autoformat_require_pragma = 0
+let g:prettier#exec_cmd_async = 1
 
 " NERDtree things
 let g:nerdtree_tabs_open_on_console_startup=1

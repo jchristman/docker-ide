@@ -45,6 +45,10 @@ RUN bash -c 'echo | echo | vim +PluginInstall +qall &>/dev/null'
 WORKDIR /home/dev/.vim/bundle/YouCompleteMe
 RUN /bin/bash -c '. /home/dev/.bashrc; python3 install.py --clang-completer --go-completer --ts-completer'
 
+# Install Prettier
+WORKDIR /home/dev/.vim/bundle/vim-prettier
+RUN npm install
+
 # Change to the workspace directory
 WORKDIR /home/dev/workspace
 
