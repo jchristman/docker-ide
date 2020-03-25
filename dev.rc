@@ -1,5 +1,6 @@
 #!/bin/zsh
 
 path+=$PWD/dockerfiles/ide
+path+=$PWD/dockerfiles/android-re
 
 cd workspace
