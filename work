@@ -2,5 +2,6 @@
 
 path+=$PWD/dockerfiles/ide
 path+=$PWD/dockerfiles/android-re
+path+=$PWD/dockerfiles/arm-pwn
 
 cd workspace
