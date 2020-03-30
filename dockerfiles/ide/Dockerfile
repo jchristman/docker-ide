@@ -45,6 +45,10 @@ RUN bash -c 'echo | echo | vim +PluginInstall +qall &>/dev/null'
 WORKDIR /home/dev/.vim/bundle/YouCompleteMe
 RUN /bin/bash -c '. /home/dev/.bashrc; python3 install.py --clang-completer --go-completer --ts-completer'
 
+# Add a default YCM semantic completion for C config
+WORKDIR /home/dev
+COPY --chown=dev:dev default_ycm_extra_conf.py /home/dev/.ycm_extra_conf.py
+
 # Install Prettier
 WORKDIR /home/dev/.vim/bundle/vim-prettier
 RUN npm install

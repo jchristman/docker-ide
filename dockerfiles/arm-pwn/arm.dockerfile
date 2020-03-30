@@ -8,8 +8,9 @@ SHELL ["/bin/bash", "-c"]
 RUN apt-get update && apt upgrade -y
 
 # Install some tools
-RUN apt-get install -y wget curl git gdb build-essential procps \
-                   python3 python3-dev python3-pip
+RUN apt-get install -y \
+    wget curl git gdb build-essential procps strace \
+    python3 python3-dev python3-pip
 
 # Install some extra goodness
 RUN pip3 install capstone keystone-engine ropper

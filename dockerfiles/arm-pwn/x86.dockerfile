@@ -7,11 +7,14 @@ SHELL ["/bin/bash", "-c"]
 RUN apt update && apt upgrade -y
 
 # Install some tools
-RUN apt-get install -y wget curl git build-essential procps file \
-                       qemu qemu-user qemu-user-static 'binfmt*' \
-                       libc6-armel-cross libc6-arm64-cross
+RUN apt-get install -y \
+    wget curl git build-essential procps file \
+    qemu qemu-user qemu-user-static 'binfmt*' \
+    libc6-armel-cross libc6-arm64-cross \
+    libc6-armhf-cross
 
 RUN mkdir /etc/qemu-binfmt
+#RUN ln -s /usr/arm-linux-gnueabi /etc/qemu-binfmt/arm
 RUN ln -s /usr/arm-linux-gnueabihf /etc/qemu-binfmt/arm
 RUN ln -s /usr/aarch64-linux-gnu /etc/qemu-binfmt/aarch64
 
