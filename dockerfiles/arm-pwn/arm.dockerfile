@@ -10,10 +10,11 @@ RUN apt-get update && apt upgrade -y
 # Install some tools
 RUN apt-get install -y \
     wget curl git gdb build-essential procps strace \
+    dos2unix xxd netcat \
     python3 python3-dev python3-pip
 
 # Install some extra goodness
-RUN pip3 install capstone keystone-engine ropper
+RUN pip3 install capstone keystone-engine ropper ropgadget
 
 # Create a user to setup for developing
 RUN useradd -ms /bin/bash dev
@@ -30,6 +31,10 @@ RUN echo 'export LC_CTYPE=C.UTF-8' >> /root/.bashrc
 RUN git clone https://github.com/pwndbg/pwndbg
 WORKDIR /home/dev/pwndbg
 RUN ./setup.sh
+
+# gdbinit tweaks
+RUN echo "set show-flags on" >> /root/.gdbinit
+RUN echo "set show-retaddr-reg on" >> /root/.gdbinit
 
 # And setup the workspace
 RUN mkdir /home/dev/workspace
