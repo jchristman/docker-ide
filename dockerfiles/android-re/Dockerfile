@@ -7,7 +7,12 @@ SHELL ["/bin/bash", "-c"]
 RUN apt update && apt upgrade -y
 
 # Install libraries
-RUN apt-get install -y default-jre default-jdk git
+RUN apt-get install -y \
+    default-jre default-jdk git \
+    python3 python3-dev python3-pip \
+    libpq-dev sqlite3
+
+RUN pip3 install sqlcrush
 
 # Create a user to setup for developing
 RUN useradd -ms /bin/bash dev

@@ -31,12 +31,30 @@ echo
 echo ----- Building ARM Pwn Env ---------
 echo
 
-cd dockerfiles/arm-pwn
+cd dockerfiles/pwn
 ./build.sh
 
 cd ../..
 
 echo
 echo --- ARM Pwn Env    Build Complete --
+echo
+echo
+
+echo ----- Building Web Env -------------
+echo
+
+cd dockerfiles/web-pwn
+./build.sh
+
+cd ../..
+
+cd dockerfiles/web-dev
+./build.sh
+
+cd ../..
+
+echo
+echo --- Web Env        Build Complete --
 echo
 echo

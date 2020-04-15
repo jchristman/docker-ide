@@ -53,6 +53,9 @@ COPY --chown=dev:dev default_ycm_extra_conf.py /home/dev/.ycm_extra_conf.py
 WORKDIR /home/dev/.vim/bundle/vim-prettier
 RUN npm install
 
+# Finally install commonly used libraries for auto-complete
+RUN pip3 install requests pwntools
+
 # Change to the workspace directory
 WORKDIR /home/dev/workspace
 

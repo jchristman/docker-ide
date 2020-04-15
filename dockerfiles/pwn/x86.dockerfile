@@ -1,5 +1,7 @@
 FROM debian:latest
 
+ENV TERM linux
+
 # Set the shell to bash
 SHELL ["/bin/bash", "-c"]
 
@@ -8,9 +10,9 @@ RUN apt update && apt upgrade -y
 
 # Install some tools
 RUN apt-get install -y \
-    wget curl git build-essential procps file \
+    wget curl git build-essential procps file lsof \
     strace dos2unix xxd netcat python3 python3-dev \
-    python3-pip \
+    python3-pip gdb-multiarch \
     qemu qemu-user qemu-user-static 'binfmt*' \
     libc6-armel-cross libc6-arm64-cross \
     libc6-armhf-cross
@@ -21,7 +23,7 @@ RUN ln -s /usr/arm-linux-gnueabihf /etc/qemu-binfmt/arm
 RUN ln -s /usr/aarch64-linux-gnu /etc/qemu-binfmt/aarch64
 
 # Good pwn dev tools
-RUN pip3 install capstone keystone-engine ropper ropgadget
+RUN pip3 install capstone keystone-engine ropper ropgadget pwntools
 
 # Create a user to setup for developing
 RUN useradd -ms /bin/bash dev

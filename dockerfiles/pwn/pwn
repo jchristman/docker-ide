@@ -1,0 +1,24 @@
+#!/bin/zsh
+
+thisdir=${0:a:h}
+
+arm_container_name=$(docker-compose -f $thisdir/docker-compose.yaml run -d -v "`pwd`":/home/dev/workspace arm-box)
+arm_container_name=$(echo $arm_container_name | grep arm-box)
+x86_container_name=$(docker-compose -f $thisdir/docker-compose.yaml run -d -v "`pwd`":/home/dev/workspace pwn-box)
+x86_container_name=$(echo $x86_container_name | grep pwn-box)
+
+echo
+echo 'Attach to ARM box (for compiling things, because PTRACE doesnt work) by executing:'
+echo docker exec -it $arm_container_name /bin/bash
+echo
+echo 'Attach more windows to x64 box by executing:'
+echo docker exec -it $x86_container_name /bin/bash
+echo
+
+docker exec -it $x86_container_name /bin/bash
+
+echo
+echo Killing arm-box: $arm_container_name
+echo $arm_container_name | xargs docker kill 2>&1 > /dev/null
+echo Killing pwn-box: $x86_container_name
+echo $x86_container_name | xargs docker kill 2>&1 > /dev/null

@@ -13,7 +13,7 @@ services:
             default:
                 aliases:
                     - arm-box
-    gdbserver:
+    pwn-box:
         build:
             context: .
             dockerfile: ./x86.dockerfile
@@ -24,7 +24,7 @@ services:
         networks:
             default:
                 aliases:
-                    - gdbserver
+                    - pwnbox
 
 networks:
     default:

@@ -2,6 +2,8 @@
 
 path+=$PWD/dockerfiles/ide
 path+=$PWD/dockerfiles/android-re
-path+=$PWD/dockerfiles/arm-pwn
+path+=$PWD/dockerfiles/pwn
+path+=$PWD/dockerfiles/web-pwn
+path+=$PWD/dockerfiles/web-dev
 
 cd workspace
