@@ -24,6 +24,11 @@ This is a dockerized version of the [ARM-X](https://armx.exploitlab.net/) enviro
  1. [pwndbg](https://github.com/pwndbg/pwndbg) for better gdb awesomeness
  2. [pwntools](https://github.com/Gallopsled/pwntools) for exploit dev
 
+## Tmux Config
+
+ 1. Scroll with mouse is enabled by default to you can use your mouse for scrollback.
+ 2. Key mappings for ctrl-arrows are created. Left maps to previous window, Right maps to next window, Up maps to window list, Down maps to last window.
+
 ## Other key differences
 
  1. The Alpine Linux is against edge repositores instead of stable so that gdb-multiarch could be used instead of the specific one from the VM.
