@@ -14,4 +14,4 @@ PS1="${RED_BOLD}\u@\h ${BLUE_BOLD}\$PWD${WHITE_BOLD} \$ "
 # Ignore case during tab completion.
 bind 'set completion-ignore-case on'
 
-export PATH="$PATH:/armx/run"
+export PATH="$PATH:/home/armx/.local/bin:/armx/run"

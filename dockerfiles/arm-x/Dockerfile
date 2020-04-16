@@ -1,11 +1,18 @@
 FROM alpine:latest
 
+# Switch to edge repo
+RUN sed -i -e 's/v[[:digit:]]\..*\//edge\//g' /etc/apk/repositories
+
 # Install packages
 RUN apk update
 RUN apk add \
         bash sudo tar vim dialog iptables \
-        tmux openssh-client nfs-utils \
+        curl tmux openssh-client nfs-utils \
+        python2 python2-dev py2-setuptools git \
+        gdb-multiarch build-base openssl openssl-dev \
         --no-cache
+
+RUN easy_install-2.7 pip
 
 # Create a user to work as
 RUN adduser --disabled-password --gecos "" armx
@@ -20,18 +27,6 @@ RUN sed -i 's!/bin/ash!/bin/bash!g' /etc/passwd
 # sudo in a container. It does not break anything to do this, it just saves
 # an error being printed to the screen
 RUN echo "Set disable_coredump false" >> /etc/sudo.conf
-
-# Needs to be a volume in order to export
-VOLUME /armx
-
-# Add the armx tarball and untar it
-COPY files/armx.tar /armx.tar
-
-# Now setup the nfs file share
-RUN echo '/armx   192.168.100.0/24(rw,sync,no_root_squash,no_subtree_check)' >> /etc/exports
-
-# Now add the tmux shortcut
-COPY files/armx/run/tmux-shortcut /armx/run/tmux-shortcut
 
 # Copy network tunnel startup script
 COPY files/etc/local.d/10-tun-network.start /etc/local.d/10-tun-network.start
@@ -58,7 +53,58 @@ COPY --chown=root files/home/armx/ssh /root/.ssh
 # user after running some initialization scripts
 COPY docker-entrypoint.sh /usr/local/bin/
 
+# Drop privileges and setup for work
 USER armx
+
+# Install pwndbg as armx so the right gdbinit is written to
+# Note that this is a modified version of pwndbg clone locally while
+# getting the alpine support into the main repo is worked on.
+COPY --chown=armx files/home/armx/pwndbg pwndbg
+WORKDIR /home/armx/pwndbg
+RUN ./setup.sh
+
+# Set some options in the gdbinit
+RUN echo "set follow-fork-mode child" >> ~/.gdbinit
+RUN echo "set detach-on-fork off" >> ~/.gdbinit
+RUN echo "set show-retaddr-reg on" >> ~/.gdbinit
+RUN echo "set show-flags on" >> ~/.gdbinit
+
+WORKDIR /home/armx
+
+# Install checksec script
+RUN git clone https://github.com/slimm609/checksec.sh
+RUN sudo ln -s checksec.sh/checksec /usr/local/bin/checksec
+
+# Go back to the workspace
+WORKDIR /home/armx/workspace
+
+RUN pip3 install pwntools ropper ropgadget
+
+################################################################
+
+# Switch back to root to do armx stuff
+USER root
+
+# Needs to be a volume in order to export
+VOLUME /armx
+
+# Add the armx to a docker directory so that docker-entrypoint can move the files over the /armx dir
+COPY files/armx /armx-docker
+
+# Untar all of the emulated systems that have special file types
+WORKDIR /armx-docker
+RUN tar xvf DVAR.tar && rm DVAR.tar
+RUN tar xvf TRI227WF.tar && rm TRI227WF.tar
+RUN sudo chown -R armx:armx /armx-docker
+
+# Now setup the nfs file share
+RUN echo '/armx   192.168.100.0/24(rw,sync,no_root_squash,no_subtree_check)' >> /etc/exports
+
+################################################################
+
+# Switch back to user armx
+USER armx
+WORKDIR /home/armx/workspace
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["/bin/bash"]

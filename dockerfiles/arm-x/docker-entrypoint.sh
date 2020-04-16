@@ -1,9 +1,9 @@
 #!/bin/bash
 
-echo ARM-X is being extracted into your named docker volume.
+echo ARM-X is being mounted over your Docker volume.
 echo This is necessary because NFS is magic.
 sleep 2
-sudo tar xvf /armx.tar -C /
+sudo mv /armx-docker/* /armx
 echo
 
 echo Starting the tunnel interface
