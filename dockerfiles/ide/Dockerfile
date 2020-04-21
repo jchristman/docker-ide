@@ -59,4 +59,13 @@ RUN pip3 install requests pwntools
 # Change to the workspace directory
 WORKDIR /home/dev/workspace
 
+USER root
+
+RUN apt-get install cscope
+
+USER dev
+
+RUN mkdir -p /home/dev/.config/nvim/plugin
+RUN curl http://cscope.sourceforge.net/cscope_maps.vim > /home/dev/.config/nvim/plugin/cscope_maps.vim
+
 CMD vim

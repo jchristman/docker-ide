@@ -44,7 +44,7 @@ let g:nerdtree_tabs_open_on_console_startup=1
 let g:NERDTreeWinSize = 40
 "let NERDTreeMapOpenInTab='<ENTER>'
 nmap \ :NERDTree<CR>
-nmap <C-\> :NERDTreeTabsToggle<CR>
+nmap <S-\> :NERDTreeTabsToggle<CR>
 
 " Extra mappings for things like iTerm
 map 1;5A <C-Up>
@@ -85,4 +85,3 @@ colorscheme solarized
 if has("autocmd")
     au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
-

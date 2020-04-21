@@ -27,12 +27,18 @@ RUN curl -sL https://deb.nodesource.com/setup_13.x | bash -
 RUN apt-get install -y nodejs
 RUN npm install -g npm
 
+# Install gulp and yarn
+RUN npm install -g gulp yarn
+
 # Good pwn dev tools
 RUN pip3 install requests
 
 # Create a user to setup for developing
 RUN useradd -ms /bin/bash dev
 RUN chmod -R 777 /var/www/
+
+# Allow user to install npm modules
+RUN chown -R dev:dev /usr/lib/node_modules
 
 USER dev
 
