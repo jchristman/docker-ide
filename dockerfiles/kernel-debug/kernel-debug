@@ -1,0 +1,18 @@
+#!/bin/zsh
+
+thisdir=${0:a:h}
+NAME=kernel-debug
+
+container_name=$(docker run -d -it -v "`pwd`":/root/workspace/share --privileged $NAME\:latest)
+container_name=$(echo $container_name | head -c 12)
+
+echo
+echo 'Attach more windows to box by executing:'
+echo docker exec -it $container_name /bin/bash
+echo
+
+docker exec -it $container_name /bin/bash
+
+echo
+echo Killing $NAME: $container_name
+echo $container_name | xargs docker kill 2>&1 > /dev/null
