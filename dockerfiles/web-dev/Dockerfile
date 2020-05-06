@@ -14,13 +14,19 @@ WORKDIR /tmp
 RUN wget https://dev.mysql.com/get/mysql-apt-config_0.8.15-1_all.deb
 RUN echo 4 | dpkg -i mysql-apt-config_0.8.15-1_all.deb
 
+RUN wget -qO - https://www.mongodb.org/static/pgp/server-4.2.asc | apt-key add -
+RUN echo "deb http://repo.mongodb.org/apt/debian buster/mongodb-org/4.2 main" | tee /etc/apt/sources.list.d/mongodb-org-4.2.list
+
 RUN apt-get update
 
 # Install some tools
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y \
-    curl git build-essential procps file lsof \
+    sudo curl git build-essential procps file lsof \
     dos2unix netcat python3 python3-dev python3-pip \
-    apache2 mysql-server php php-mysql libapache2-mod-php
+    apache2 mysql-server php php-mysql libapache2-mod-php \
+    mongodb-org
+
+RUN mkdir -p /data/db
 
 # Install node
 RUN curl -sL https://deb.nodesource.com/setup_13.x | bash -
@@ -35,10 +41,12 @@ RUN pip3 install requests
 
 # Create a user to setup for developing
 RUN useradd -ms /bin/bash dev
+RUN echo 'dev ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
 RUN chmod -R 777 /var/www/
 
 # Allow user to install npm modules
 RUN chown -R dev:dev /usr/lib/node_modules
+RUN chown -R dev:dev /data
 
 USER dev
 

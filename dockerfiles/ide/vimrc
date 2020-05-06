@@ -58,6 +58,10 @@ nmap <silent> <C-Left> :wincmd h<CR>
 nmap <silent> <C-Right> :wincmd l<CR>
 nmap <silent> <C-.> :YcmCompleter GetDoc<CR>
 
+" Timestamps
+nnoremap <F5> "=strftime("%c -- ")<CR>P
+inoremap <F5> <C-R>=strftime("%c -- ")<CR>
+
 " powerline
 "set term=xterm-256color
 set laststatus=2

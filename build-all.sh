@@ -58,3 +58,29 @@ echo
 echo --- Web Env        Build Complete --
 echo
 echo
+
+echo ----- Building ARM-X System --------
+echo
+
+cd dockerfiles/arm-x
+./build.sh
+
+cd ../..
+
+echo
+echo --- ARM-X System   Build Complete --
+echo
+echo
+
+echo ----- Building Kernel Debugger -----
+echo
+
+cd dockerfiles/kernel-debug
+./build.sh
+
+cd ../..
+
+echo
+echo -- Kernel Debugger Build Complete --
+echo
+echo

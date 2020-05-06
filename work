@@ -6,5 +6,6 @@ path+=$PWD/dockerfiles/pwn
 path+=$PWD/dockerfiles/web-pwn
 path+=$PWD/dockerfiles/web-dev
 path+=$PWD/dockerfiles/arm-x
+path+=$PWD/dockerfiles/kernel-debug
 
 cd workspace

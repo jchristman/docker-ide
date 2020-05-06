@@ -23,7 +23,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y \
     apache2 mysql-server php php-mysql libapache2-mod-php
 
 # Good pwn dev tools
-RUN pip3 install requests
+RUN pip3 install requests bs4
 
 # Create a user to setup for developing
 RUN useradd -ms /bin/bash dev
