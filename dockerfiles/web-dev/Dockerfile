@@ -27,14 +27,19 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y \
     mongodb-org
 
 RUN mkdir -p /data/db
+RUN mkdir -p /usr/lib/node_modules
+RUN chown -R 777 /usr/lib/node_modules
 
 # Install node
-RUN curl -sL https://deb.nodesource.com/setup_13.x | bash -
+RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
 RUN apt-get install -y nodejs
 RUN npm install -g npm
 
 # Install gulp and yarn
 RUN npm install -g gulp yarn
+
+# Install node-inspector. Use yarn to avoid permission issues
+#RUN yarn global add node-inspector
 
 # Good pwn dev tools
 RUN pip3 install requests

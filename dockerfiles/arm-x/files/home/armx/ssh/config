@@ -1,3 +1,0 @@
-Host 192.168.100.2
-    StrictHostKeyChecking no
-    KexAlgorithms +diffie-hellman-group1-sha1

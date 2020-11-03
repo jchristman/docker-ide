@@ -1,4 +1,4 @@
-FROM debian:latest
+FROM debian:buster-slim
 
 # Set the shell to bash
 SHELL ["/bin/bash", "-c"]
@@ -7,7 +7,7 @@ SHELL ["/bin/bash", "-c"]
 RUN apt update && apt upgrade -y
 
 # Install neovim and build libraries for autocompletion
-RUN apt-get install -y neovim python-pip python3-pip git curl \
+RUN apt-get install -y python3-pip git curl \
                        build-essential cmake python3-dev
 
 # Setup Golang
@@ -20,8 +20,15 @@ RUN mv go /usr/local
 RUN curl -sL https://deb.nodesource.com/setup_13.x | bash -
 RUN apt-get install -y nodejs
 
+# Setup neovim
+RUN curl -LO https://github.com/neovim/neovim/releases/download/v0.4.4/nvim-linux64.tar.gz
+RUN tar xzf nvim-linux64.tar.gz
+RUN cp nvim-linux64/bin/nvim /usr/bin/nvim
+RUN cp -R nvim-linux64/share/* /usr/share
+RUN update-alternatives --install /usr/bin/vim vim /usr/bin/nvim 1
+RUN rm -rf nvim*
+
 # Get the neovim python plugin
-RUN pip2 install pynvim
 RUN pip3 install pynvim
 
 # Create a user to setup for developing
@@ -39,7 +46,7 @@ COPY --chown=dev:dev vimrc /home/dev/.config/nvim/init.vim
 
 # Install vundle and all plugins
 RUN git clone https://github.com/VundleVim/Vundle.vim.git /home/dev/.config/nvim/bundle/Vundle.vim
-RUN bash -c 'echo | echo | vim +PluginInstall +qall &>/dev/null'
+RUN bash -c 'echo | echo | vim --headless +PluginInstall +qall 2>/dev/null'
 
 # Install YCM
 WORKDIR /home/dev/.vim/bundle/YouCompleteMe

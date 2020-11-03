@@ -1,3 +1,0 @@
-#!/bin/zsh
-
-docker run -it -p 8000-8080:8000-8080 -v "`pwd`":/home/armx/workspace --privileged --device /dev/net/tun:/dev/net/tun armx:latest
