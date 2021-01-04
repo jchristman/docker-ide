@@ -17,7 +17,7 @@ RUN tar xvf go1.13.8.linux-amd64.tar.gz
 RUN mv go /usr/local
 
 # Setup nodejs (for autocompletion)
-RUN curl -sL https://deb.nodesource.com/setup_13.x | bash -
+RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
 RUN apt-get install -y nodejs
 
 # Setup neovim
