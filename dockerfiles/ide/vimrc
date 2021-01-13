@@ -21,6 +21,9 @@ Plugin 'elzr/vim-json'
 " Prettier for javascript
 Plugin 'prettier/vim-prettier'
 
+" Autosave, because losing your changes is for losers
+Plugin '907th/vim-auto-save'
+
 call vundle#end()            " required
 filetype plugin indent on    " required
 
@@ -86,6 +89,9 @@ set t_Co=256
 " Color schemes
 set background=dark
 colorscheme solarized
+
+" Enable auto save
+let g:auto_save = 1
 
 " goes to last line open in file
 if has("autocmd")
