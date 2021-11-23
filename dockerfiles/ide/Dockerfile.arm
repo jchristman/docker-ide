@@ -20,17 +20,15 @@ RUN mv go /usr/local
 RUN curl -sL https://deb.nodesource.com/setup_17.x | bash -
 RUN apt-get install -y nodejs
 
+# Finally install commonly used libraries for auto-complete
+RUN pip3 install requests
+RUN pip3 install --upgrade git+https://github.com/arthaud/python3-pwntools.git
+
 # Setup neovim
-#RUN curl -LO https://github.com/neovim/neovim/releases/download/v0.4.4/nvim-linux64.tar.gz
-#RUN tar xzf nvim-linux64.tar.gz
-#RUN cp nvim-linux64/bin/nvim /usr/bin/nvim
-#RUN cp -R nvim-linux64/share/* /usr/share
-#RUN update-alternatives --install /usr/bin/vim vim /usr/bin/nvim 1
-#RUN rm -rf nvim*
 RUN apt-get install -y neovim python3-neovim
 
 # Get the neovim python plugin
-#RUN pip3 install pynvim
+RUN pip3 install --upgrade pynvim
 
 # Create a user to setup for developing
 RUN useradd -ms /bin/bash dev
@@ -45,37 +43,14 @@ RUN echo 'export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin' >> /home/dev/.bashrc
 RUN mkdir -p /home/dev/.config/nvim/bundle
 COPY --chown=dev:dev vimrc /home/dev/.config/nvim/init.vim
 
-# Install vundle and all plugins
-RUN git clone https://github.com/VundleVim/Vundle.vim.git /home/dev/.config/nvim/bundle/Vundle.vim
-RUN echo | echo | vim --headless +PluginInstall +qall 2>/dev/null
+# Install vim-plug and all plugins
+RUN curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+RUN echo | echo | vim --headless +PlugInstall +qall 2>/dev/null
 
-# Install YCM
-WORKDIR /home/dev/.vim/bundle/YouCompleteMe
-USER root
-RUN . /home/dev/.bashrc; python3 install.py --clang-completer --go-completer --ts-completer
-
-# Add a default YCM semantic completion for C config
-WORKDIR /home/dev
-COPY --chown=dev:dev default_ycm_extra_conf.py /home/dev/.ycm_extra_conf.py
-
-# Install Prettier
-WORKDIR /home/dev/.vim/bundle/vim-prettier
-RUN npm install
-
-# Finally install commonly used libraries for auto-complete
-RUN pip3 install requests
-RUN pip3 install --upgrade git+https://github.com/arthaud/python3-pwntools.git
+# We need qall here because of nerdtree
+RUN vim -c 'CocInstall -sync coc-clangd coc-cmake coc-css coc-dot-complete coc-go coc-graphql coc-highlight coc-html coc-html-css-support coc-json coc-prettier coc-pyright coc-rust-analyzer coc-sh coc-spell-checker coc-sql coc-tsserver | qall'
 
 # Change to the workspace directory
 WORKDIR /home/dev/workspace
-
-USER root
-
-RUN apt-get install cscope
-
-USER dev
-
-RUN mkdir -p /home/dev/.config/nvim/plugin
-RUN curl http://cscope.sourceforge.net/cscope_maps.vim > /home/dev/.config/nvim/plugin/cscope_maps.vim
 
 CMD vim
