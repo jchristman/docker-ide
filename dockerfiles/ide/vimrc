@@ -14,9 +14,6 @@ Plug 'altercation/vim-colors-solarized'
 Plug 'jparise/vim-graphql'
 Plug 'elzr/vim-json'
 
-" Prettier for javascript
-Plug 'prettier/vim-prettier'
-
 " Autosave, because losing your changes is for losers
 Plug '907th/vim-auto-save'
 
@@ -25,6 +22,9 @@ Plug 'hashivim/vim-terraform'
 
 " HCL
 Plug 'b4b4r07/vim-hcl'
+
+" Prettier
+Plug 'prettier/vim-prettier', { 'do': 'yarn install --frozen-lockfile --production' }
 
 call plug#end()
 filetype plugin indent on    " required
