@@ -13,6 +13,7 @@ Plug 'jistr/vim-nerdtree-tabs'
 Plug 'altercation/vim-colors-solarized'
 Plug 'jparise/vim-graphql'
 Plug 'elzr/vim-json'
+Plug 'leafgarland/typescript-vim'
 
 " Autosave, because losing your changes is for losers
 Plug '907th/vim-auto-save'

@@ -1,4 +1,4 @@
-FROM debian:bullseye-slim
+FROM debian:bookworm-slim
 
 # Set the shell to bash
 SHELL ["/bin/bash", "-c"]
@@ -17,8 +17,21 @@ RUN tar xvf go1.17.3.linux-arm64.tar.gz
 RUN mv go /usr/local
 
 # Setup nodejs (for autocompletion)
-RUN curl -sL https://deb.nodesource.com/setup_17.x | bash -
-RUN apt-get install -y nodejs
+ENV NVM_DIR /usr/local/nvm
+ENV NODE_VERSION 19.1.0
+RUN mkdir -p $NVM_DIR
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash
+RUN source $NVM_DIR/nvm.sh \
+    && nvm install $NODE_VERSION \
+    && nvm alias default $NODE_VERSION \
+    && nvm use default
+
+# add node and npm to path so the commands are available
+ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
+ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
+
+# Install yarn
+RUN npm install -g yarn
 
 # Finally install commonly used libraries for auto-complete
 RUN pip3 install requests
@@ -29,9 +42,6 @@ RUN apt-get install -y neovim python3-neovim
 
 # Get the neovim python plugin
 RUN pip3 install --upgrade pynvim
-
-# Install yarn
-RUN npm install -g yarn
 
 # Create a user to setup for developing
 RUN useradd -ms /bin/bash dev
